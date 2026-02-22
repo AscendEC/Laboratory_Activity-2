@@ -1,57 +1,81 @@
 Laboratory Activity 2 – Written Answers
 Submitted by: Ascend Earn Cañete
 
-Overall design and justification
+Laboratory Activity 2 – OOP Python Program
+Submitted by: Akari
 
-I created a single class called Book that represents one book in a personal library.
+1. Explain the overall design of your program and justify why you chose this particular class structure and set of user-defined methods.
+
+The program is a simple console-based Monthly Budget Tracker.
+I created one main class called BudgetCategory. Each object represents one budget category (example: "Food", "Transportation").
+
 Attributes:
+- name (string)
+- limit (float) – monthly budget ceiling
+- expenses (float) – total spent so far
+- transactions (list) – keeps record of each expense (description + amount)
 
-title (str)
-author (str)
-year (int)
-status (str: "available" or "borrowed")
+User-defined methods (minimum 2 required):
+• add_expense(amount, description)  → adds spending and records the transaction
+• status()  → returns colored/warning-style message about how much is left or if over budget
 
-User-defined methods:
+I also added helper method:
+• remaining()  → computes limit - expenses
 
-borrow() → changes status if possible
-return_book() → changes status if possible
-display_info() → returns formatted string (used for viewing)
+Justification:
+- One class per category follows Single Responsibility Principle
+- Easy to understand: real life = "each category manages its own money"
+- Methods are meaningful: users add expenses → immediately see warnings
+- Keeps code simple but still shows encapsulation, instance variables, and behavior inside objects
 
-Why this structure?
+2. Describe how user input is handled in your program and discuss the role of exception handling (try–except) in preventing incorrect or unexpected behavior.
 
-A library is naturally a collection of Book objects → matches real-world concept (encapsulation)
-Status is part of the book's own state → behavior (borrow/return) belongs inside the class (good OOP)
-Keeps main program logic clean: it only manages the list and user interaction
-Easy to extend later (e.g. add due_date, borrower_name, multiple copies, etc.)
+User input is collected using input() inside a while True menu loop.
 
+Main places where input is taken:
+- Menu choice (1,2,3,4)
+- Category name
+- Budget limit amount
+- Expense amount
+- Expense description (optional)
 
-User input handling and role of exception handling
+Exception handling used:
+• try: float(limit_input)  → catches letters/symbols instead of numbers
+• try-except when creating BudgetCategory (checks name not empty, limit > 0)
+• try-except when adding expense (amount must be positive number)
+• General except Exception as safety net
+• Special except KeyboardInterrupt → friendly exit when user presses Ctrl+C
 
-User input is mainly handled in the main() function using input().
-Exception handling locations:
+Role:
+- Prevents program from crashing when user types wrong format (example: "five thousand" instead of 5000)
+- Shows helpful messages instead of red traceback
+- Makes program much more user-friendly and robust
 
-int(year) conversion → catches non-numeric year
-Constructor validation → raises ValueError for empty title/author or invalid year
-General try-except around main loop → catches unexpected runtime errors
-Top-level try-except + KeyboardInterrupt → graceful exit on Ctrl+C
-
-Purpose:
-
-Prevents program crash on bad input (e.g. typing "abc" as year)
-Gives meaningful feedback instead of stack trace
-Improves user experience and robustness
-
-
-One limitation and possible improvement
+3. Identify one limitation of your current implementation and explain how it could be improved using additional OOP concepts or better error handling.
 
 Limitation:
+All data is stored only in memory → everything disappears when the program is closed.
+No way to save budgets or continue next time.
 
-Book matching is done only by title (case-insensitive) → if two books have the same title, only the first one is borrowed/returned.
-No unique identifier (like ISBN or auto-increment ID)
+Possible improvements:
+a) Create a new class BudgetManager that:
+   - contains dictionary or list of BudgetCategory objects
+   - has methods: save_to_json(), load_from_json()
+   → uses json module to write/read file
 
-Improvement using OOP:
+b) Add more methods to BudgetCategory:
+   - get_transaction_history()
+   - reset_expenses()
+   - increase_limit(new_amount)
 
-Add an auto-incremented id attribute in the class (class variable + instance variable)
-Or add isbn field and require it on creation
-Use a dictionary {title.lower(): Book} or {id: Book} for faster and precise lookup
-Could create a separate Library class that manages the collection (composition), encapsulates the search logic, and provides methods like find_book_by_title(), find_book_by_id(), etc.
+c) Better input validation:
+   - Use custom exception classes (class InvalidBudgetError(ValueError): ...)
+   - Add maximum name length check
+   - Prevent duplicate category names (already partially done with lower-case key)
+
+d) Future OOP idea:
+   Create abstract class BudgetBase → two child classes:
+   • StrictBudgetCategory (cannot go over limit)
+   • FlexibleBudgetCategory (allows overspending with warning only)
+
+These changes would make the program more complete while still using proper OOP thinking.
