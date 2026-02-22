@@ -9,25 +9,31 @@ No warranty of any kind is provided — express or implied. Use at your own risk
 
 © Ascend Earn Cañete / 553867 
 
-# OOP Laboratory Activity 2 – Personal Library Manager
+# Laboratory Activity 2 – OOP Budget Tracker
 
-Simple console-based book tracker using Object-Oriented Programming in Python.
+Simple console-based **Monthly Budget Tracker** built in Python using Object-Oriented Programming (OOP) concepts.
 
 ## Features
-- Add books (title, author, year)
-- Borrow & return books
-- View all books with status
-- Input validation & exception handling
+- Create budget categories (e.g., Food, Transport, Rent)
+- Set a monthly spending limit for each category
+- Add expenses with descriptions
+- View real-time status with warnings when nearing or exceeding the budget
+- Friendly error messages for invalid inputs
 
 ## Requirements Demonstrated
-- Class with attributes & at least 2 user-defined methods
-- User input handling
-- Try–except blocks for error handling
-- Clean OOP design
+- Class with user-defined attributes
+- At least two user-defined methods with meaningful behavior
+- User input handling via `input()`
+- Exception handling (`try`–`except`) for invalid inputs and runtime errors
+- Clean OOP design with encapsulation
 
 ## How to Run
 
-```bash
-git clone https://github.com/AscendEC/Laboratory_Activity-2.git
-cd Laboratory_Activity-2
-python main.py
+### Prerequisites
+- Python 3.6 or higher installed on your computer  
+  (most school/university computers already have Python 3.8–3.12)
+
+### Steps
+1. **Clone or download the repository**
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/Laboratory_Activity-2.git

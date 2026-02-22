@@ -1,133 +1,129 @@
-class Book:
-    # Represents a book in a small personal library.
-    # Demonstrates OOP with attributes, methods, and basic state management.
+class BudgetCategory:
 
-    def __init__(self, title, author, year, status="available"):
-        self.title = title.strip()
-        self.author = author.strip()
-        self.year = year
-        self.status = status.lower() # "available" or "borrowed"
+    # Represents a single budget category with a name, spending limit, and current expenses.
+
+    def __init__(self, name: str, limit: float):
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError("Category name must be a non-empty string.")
+        if not isinstance(limit, (int, float)) or limit <= 0:
+            raise ValueError("Budget limit must be a positive number.")
         
-        if not self.title:
-            raise ValueError("Title cannot be empty")
-        if not self.author:
-            raise ValueError("Author cannot be empty")
-        if not isinstance(year, int) or year < 0 or year > 2100:
-            raise ValueError("Year must be a reasonable integer (0–2100)")
+        self.name = name.strip()
+        self.limit = float(limit)
+        self.expenses = 0.0
+        self.transactions = []  # list of (description, amount)
 
-    def borrow(self):
-        # Mark the book as borrowed if it is currently available.
-        if self.status == "available":
-            self.status = "borrowed"
-            print(f"→ You have borrowed '{self.title}' by {self.author}.")
+    def add_expense(self, amount: float, description: str = "Unnamed expense") -> None:
+        # Add an expense to this category.
+
+        if not isinstance(amount, (int, float)) or amount <= 0:
+            raise ValueError("Expense amount must be a positive number.")
+        
+        self.expenses += amount
+        self.transactions.append((description.strip(), amount))
+        print(f"Added ₱{amount:.2f} for '{description}' to '{self.name}'")
+
+    def remaining(self) -> float:
+        # Returns how much budget is left (can be negative).
+        return self.limit - self.expenses
+
+    def status(self) -> str:
+        # Returns a human-readable status message.
+        remaining = self.remaining()
+        percent_used = (self.expenses / self.limit) * 100 if self.limit > 0 else 0
+        
+        if remaining > 0:
+            if percent_used >= 80:
+                return f"{self.name}: ₱{remaining:.2f} left ({percent_used:.1f}% used) — getting close!"
+            return f"✓  {self.name}: ₱{remaining:.2f} left ({percent_used:.1f}% used)"
+        elif remaining == 0:
+            return f"✗  {self.name}: Exactly at limit (100%)"
         else:
-            print(f"× '{self.title}' is already borrowed.")
+            return f"!!! {self.name}: OVER BUDGET by ₱{abs(remaining):.2f} ({percent_used:.1f}%)"
 
-    def return_book(self):
-        # Mark the book as available again if it was borrowed.
-        if self.status == "borrowed":
-            self.status = "available"
-            print(f"→ You have returned '{self.title}'.")
-        else:
-            print(f"× '{self.title}' was not borrowed.")
-
-    def display_info(self):
-        # Return a formatted string with book details.
-        return (f"Title: {self.title}\n"
-                f"Author: {self.author}\n"
-                f"Year: {self.year}\n"
-                f"Status: {self.status.capitalize()}")
+    def __str__(self) -> str:
+        return f"{self.name} (Limit: ₱{self.limit:.2f}) — Spent: ₱{self.expenses:.2f}"
 
 
 def main():
-    print("=== Personal Library Manager (Lab Activity 2) ===\n")
-    books = []
+    print(" Simple Budget Tracker \n")
+    categories = {}
 
     while True:
         print("\nOptions:")
-        print("1. Add a new book")
-        print("2. Borrow a book")
-        print("3. Return a book")
-        print("4. Show all books")
-        print("5. Quit")
+        print("  1. Create new category")
+        print("  2. Add expense")
+        print("  3. Show status of all categories")
+        print("  4. Exit")
 
         try:
-            choice = input("\nEnter actions: ").strip()
+            choice = input("Enter choice (1–4): ").strip()
 
             if choice == "1":
-                title = input("Book title: ").strip()
-                author = input("Author name: ").strip()
+                name = input("Category name: ").strip()
+                limit_input = input("Monthly limit (₱): ").strip()
                 
-                while True:
-                    try:
-                        year = int(input("Publication year: ").strip())
-                        break
-                    except ValueError:
-                        print("! Please enter a valid year (number).")
+                try:
+                    limit = float(limit_input)
+                except ValueError:
+                    print("Error: Please enter a valid number for the limit.")
+                    continue
 
-                book = Book(title, author, year)
-                books.append(book)
-                print(f"✓ Book '{title}' added successfully.")
+                try:
+                    cat = BudgetCategory(name, limit)
+                    categories[name.lower()] = cat  # case-insensitive key
+                    print(f"Created category: {cat}")
+                except ValueError as e:
+                    print(f"Error: {e}")
+                    continue
 
             elif choice == "2":
-                if not books:
-                    print("! No books in library yet.")
+                if not categories:
+                    print("No categories yet. Create one first.")
                     continue
-                    
-                title = input("Enter title to borrow: ").strip().lower()
-                found = False
-                for book in books:
-                    if book.title.lower() == title:
-                        book.borrow()
-                        found = True
-                        break
-                if not found:
-                    print(f"! No book found with title '{title}'.")
+
+                name = input("Which category? ").strip()
+                key = name.lower()
+                if key not in categories:
+                    print("Category not found.")
+                    continue
+
+                amount_input = input("Expense amount (₱): ").strip()
+                desc = input("Description (optional): ").strip() or "Unnamed expense"
+
+                try:
+                    amount = float(amount_input)
+                except ValueError:
+                    print("Error: Invalid amount. Must be a number.")
+                    continue
+
+                try:
+                    categories[key].add_expense(amount, desc)
+                except ValueError as e:
+                    print(f"Error: {e}")
 
             elif choice == "3":
-                if not books:
-                    print("! No books in library yet.")
-                    continue
-                    
-                title = input("Enter title to return: ").strip().lower()
-                found = False
-                for book in books:
-                    if book.title.lower() == title:
-                        book.return_book()
-                        found = True
-                        break
-                if not found:
-                    print(f"! No book found with title '{title}'.")
+                if not categories:
+                    print("No categories created yet.")
+                else:
+                    print("\nCurrent budget status:")
+                    for cat in categories.values():
+                        print(cat.status())
 
             elif choice == "4":
-                if not books:
-                    print("No books in the library yet.")
-                else:
-                    print("\n--- Library Collection ---")
-                    for i, book in enumerate(books, 1):
-                        print(f"\nBook #{i}")
-                        print(book.display_info())
-                        print("-" * 40)
-
-            elif choice == "5":
-                print("\nThank you for using the Library Manager. Goodbye!")
+                print("\nGoodbye! Stay within budget!")
                 break
 
             else:
-                print("! Invalid choice. Please enter 1–5.")
+                print("Invalid choice. Please enter 1, 2, 3, or 4.")
 
-        except ValueError as e:
-            print(f"Input error: {e}")
+        except KeyboardInterrupt:
+            print("\n\nProgram interrupted. Exiting...")
+            break
         except Exception as e:
             print(f"Unexpected error: {e}")
-            print("Please try again.")
+            print("Please try again.\n")
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\n\nProgram terminated by user. Goodbye!")
-    except Exception as e:
-        print(f"Critical error: {e}")
-        print("Program will exit.")
+    main()
