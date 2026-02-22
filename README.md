@@ -6,6 +6,7 @@ This repository is created solely for educational purposes.
 The code, documentation, and all contents are submitted as a requirement for Laboratory Activity 2 of the CS15L course.
 This project is not intended for production use, commercial purposes, distribution as exemplary code, or as a reference for best practices in professional software development.
 No warranty of any kind is provided — express or implied. Use at your own risk.
+
 © Ascend Earn Cañete / 553867 
 
 # OOP Laboratory Activity 2 – Personal Library Manager
