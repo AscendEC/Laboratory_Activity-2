@@ -1,8 +1,6 @@
 Laboratory Activity 2 – Written Answers
 Submitted by: Ascend Earn Cañete
 
-Laboratory Activity 2 – OOP Python Program
-Submitted by: Akari
 
 1. Explain the overall design of your program and justify why you chose this particular class structure and set of user-defined methods.
 
