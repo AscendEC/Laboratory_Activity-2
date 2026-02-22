@@ -1,4 +1,3 @@
-# main.py
 class Book:
     
     def __init__(self, title, author, year, status="available"):
@@ -15,7 +14,7 @@ class Book:
             raise ValueError("Year must be a reasonable integer (0–2100)")
 
     def borrow(self):
-        """Mark the book as borrowed if it is currently available."""
+        # Mark the book as borrowed if it is currently available.
         if self.status == "available":
             self.status = "borrowed"
             print(f"→ You have borrowed '{self.title}' by {self.author}.")
@@ -23,7 +22,7 @@ class Book:
             print(f"× '{self.title}' is already borrowed.")
 
     def return_book(self):
-        """Mark the book as available again if it was borrowed."""
+        # Mark the book as available again if it was borrowed.
         if self.status == "borrowed":
             self.status = "available"
             print(f"→ You have returned '{self.title}'.")
@@ -31,7 +30,7 @@ class Book:
             print(f"× '{self.title}' was not borrowed.")
 
     def display_info(self):
-        """Return a formatted string with book details."""
+        # Return a formatted string with book details.
         return (f"Title: {self.title}\n"
                 f"Author: {self.author}\n"
                 f"Year: {self.year}\n"
@@ -51,7 +50,7 @@ def main():
         print("5. Quit")
 
         try:
-            choice = input("\nEnter choice (1–5): ").strip()
+            choice = input("\nEnter actions: ").strip()
 
             if choice == "1":
                 title = input("Book title: ").strip()
