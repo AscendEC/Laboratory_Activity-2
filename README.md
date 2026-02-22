@@ -36,4 +36,4 @@ Simple console-based **Monthly Budget Tracker** built in Python using Object-Ori
 ### Steps
 1. **Clone or download the repository**
    ```bash
-   git clone https://github.com/YOUR-USERNAME/Laboratory_Activity-2.git
+   git clone https://github.com/AscendEC/Laboratory_Activity-2.git
