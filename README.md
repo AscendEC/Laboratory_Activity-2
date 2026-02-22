@@ -1,7 +1,7 @@
 # Laboratory_Activity-2
 CS15L - Python OOP 
 
-#Disclaimer
+# Disclaimer
 This repository is created solely for educational purposes.
 The code, documentation, and all contents are submitted as a requirement for Laboratory Activity 2 of the CS15L course.
 This project is not intended for production use, commercial purposes, distribution as exemplary code, or as a reference for best practices in professional software development.
