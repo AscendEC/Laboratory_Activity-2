@@ -1,10 +1,12 @@
 class Book:
-    
+    # Represents a book in a small personal library.
+    # Demonstrates OOP with attributes, methods, and basic state management.
+
     def __init__(self, title, author, year, status="available"):
         self.title = title.strip()
         self.author = author.strip()
         self.year = year
-        self.status = status.lower()
+        self.status = status.lower() # "available" or "borrowed"
         
         if not self.title:
             raise ValueError("Title cannot be empty")
