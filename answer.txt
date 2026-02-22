@@ -1,0 +1,57 @@
+Laboratory Activity 2 – Written Answers
+Submitted by: Ascend Earn Cañete
+
+Overall design and justification
+
+I created a single class called Book that represents one book in a personal library.
+Attributes:
+
+title (str)
+author (str)
+year (int)
+status (str: "available" or "borrowed")
+
+User-defined methods:
+
+borrow() → changes status if possible
+return_book() → changes status if possible
+display_info() → returns formatted string (used for viewing)
+
+Why this structure?
+
+A library is naturally a collection of Book objects → matches real-world concept (encapsulation)
+Status is part of the book's own state → behavior (borrow/return) belongs inside the class (good OOP)
+Keeps main program logic clean: it only manages the list and user interaction
+Easy to extend later (e.g. add due_date, borrower_name, multiple copies, etc.)
+
+
+User input handling and role of exception handling
+
+User input is mainly handled in the main() function using input().
+Exception handling locations:
+
+int(year) conversion → catches non-numeric year
+Constructor validation → raises ValueError for empty title/author or invalid year
+General try-except around main loop → catches unexpected runtime errors
+Top-level try-except + KeyboardInterrupt → graceful exit on Ctrl+C
+
+Purpose:
+
+Prevents program crash on bad input (e.g. typing "abc" as year)
+Gives meaningful feedback instead of stack trace
+Improves user experience and robustness
+
+
+One limitation and possible improvement
+
+Limitation:
+
+Book matching is done only by title (case-insensitive) → if two books have the same title, only the first one is borrowed/returned.
+No unique identifier (like ISBN or auto-increment ID)
+
+Improvement using OOP:
+
+Add an auto-incremented id attribute in the class (class variable + instance variable)
+Or add isbn field and require it on creation
+Use a dictionary {title.lower(): Book} or {id: Book} for faster and precise lookup
+Could create a separate Library class that manages the collection (composition), encapsulates the search logic, and provides methods like find_book_by_title(), find_book_by_id(), etc.
